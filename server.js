@@ -40,10 +40,11 @@ app.get("/scrape", function(req, res) {
         // Create article object
         var article = {};
   
-        // Save title, summary and link for each article to result object
+        // Save title, summary, thumbnail and link for each article to result object
         article.title   = $(this).find("a h2.hed").text().trim()
         article.summary = $(this).find("p").text().trim()
         article.link    = "https://www.theatlantic.com" + $(this).find("a").attr("href").trim()
+        article.thumbnail = $(this).find("a figure img").attr("data-src")
 
         console.log(article)         
       });
