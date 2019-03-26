@@ -64,6 +64,17 @@ app.get("/scrape", function (req, res) {
     res.send("Scrape Complete")
 })
 
+// GET for ALL Articles
+app.get("/articles", function (req, res) {
+    db.Article.find({})
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            res.json(err);
+        });
+});
+
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");
 });
