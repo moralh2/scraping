@@ -13,13 +13,14 @@ router.get("/articles", function (request, response) {
             var hbsObject = {
                 articles: dbArticle
             };
-            console.log(hbsObject);
             response.render("index", hbsObject);
-            // res.json(dbArticle);
+            // console.log(hbsObject);
+
+            // response.json(hbsObject);
         })
         .catch(function (err) {
-            res.json(err);
+            response.json(err);
         });
 });
 
-module.exports = router;
+module.exports = router
