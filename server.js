@@ -1,40 +1,37 @@
-var express = require("express")
-var handlebars = require("express-handlebars")
+// Imports
+var express = require("express")            // Server
+var mongoose = require("mongoose")          // ORM
+var axios = require("axios")                // HTTP client
+var cheerio = require("cheerio")            // API to traverse DOM
+var exphbs = require("express-handlebars")  // Import Handlebars
 
-// ORM
-var mongoose = require("mongoose")
+// Set default port to 3000, set news site
+const PORT = process.env.PORT || 3000
+const newsSite = 'https://www.theatlantic.com/latest/'
 
-// HTTP Client
-var axios = require("axios")
 
-// API to traverse DOM
-var cheerio = require("cheerio")
-
-// Initialize Express, set default port to 3000
+// Init Express, parse request body as JSON, make public a static folder
 var app = express()
-var PORT = 3000
-
-var db = require("./models")
-
-
-// Parse request body as JSON
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-// Make public a static folder
 app.use(express.static("public"))
 
-// Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/newsScraper", { useNewUrlParser: true })
+// Set up app to use Handlebars as template engine
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
-// Set variable to store news site
-var newsSite = 'https://www.theatlantic.com/latest/'
+// Import models and routes, allow server to access routes, connect to the Mongo DB
+var db = require("./models")
+var routes = require("./controllers/articles_controller")
+app.use(routes);
+mongoose.connect("mongodb://localhost/newsScraper", { useNewUrlParser: true })
 
 // Scrape from news site
 app.get("/scrape", function (req, res) {
     // Grab HTML body
     axios.get(newsSite).then(function (response) {
         // Load into Cheerio
-        var $ = cheerio.load(response.data);
+        var $ = cheerio.load(response.data)
 
         // Save main div with articles list, create array with articles
         var mainArticlesList = $("div#landing div.fluid-container.body div.river-body ul.river")
@@ -57,7 +54,6 @@ app.get("/scrape", function (req, res) {
             db.Article.create(article)
                 .then(function (dbArticle) { console.log(dbArticle) })
                 .catch(function (err) { console.log(err) })
-
         })
 
     })
@@ -65,16 +61,17 @@ app.get("/scrape", function (req, res) {
 })
 
 // GET for ALL Articles
-app.get("/articles", function (req, res) {
-    db.Article.find({})
-        .then(function (dbArticle) {
-            res.json(dbArticle);
-        })
-        .catch(function (err) {
-            res.json(err);
-        });
-});
+// app.get("/articles", function (req, res) {
+//     db.Article.find({})
+//         .then(function (dbArticle) {
+//             res.json(dbArticle);
+//         })
+//         .catch(function (err) {
+//             res.json(err);
+//         });
+// });
+
 
 app.listen(PORT, function () {
-    console.log("App running on port " + PORT + "!");
-});
+    console.log("App running on port " + PORT + "!")
+})
