@@ -14,9 +14,32 @@ router.get("/articles", function (request, response) {
                 articles: dbArticle
             };
             response.render("index", hbsObject);
-            // console.log(hbsObject);
+        })
+        .catch(function (err) {
+            response.json(err);
+        });
+});
 
-            // response.json(hbsObject);
+router.get("/articles/new", function (request, response) {
+    Article.find({ saved: false })
+        .then(function (dbArticle) {
+            var hbsObject = {
+                articles: dbArticle
+            };
+            response.render("index", hbsObject);
+        })
+        .catch(function (err) {
+            response.json(err);
+        });
+});
+
+router.get("/articles/saved", function (request, response) {
+    Article.find({ saved: true })
+        .then(function (dbArticle) {
+            var hbsObject = {
+                articles: dbArticle
+            };
+            response.render("index", hbsObject);
         })
         .catch(function (err) {
             response.json(err);
