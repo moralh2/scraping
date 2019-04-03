@@ -1,7 +1,19 @@
 <div id="articles" class="container"></div>
 
-    {{#each articles}}
-        {{> articles/article-block}}
-    {{/each}}
+    {{#if saved}}
+        <h1>SAVED</h1>
+        {{#each articles}}
+            {{> articles/article-block}}
+        {{/each}}
+    {{else}}
+        <h1>ELSE</h1>
+
+        {{#each articles}}
+            {{> articles/article-block}}
+        {{/each}}
+
+    {{/if}}
+
+
 
 </div>

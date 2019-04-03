@@ -24,6 +24,7 @@ router.get("/articles/new", function (request, response) {
     Article.find({ saved: false })
         .then(function (dbArticle) {
             var hbsObject = {
+                saved: false,
                 articles: dbArticle
             };
             response.render("index", hbsObject);
@@ -37,6 +38,7 @@ router.get("/articles/saved", function (request, response) {
     Article.find({ saved: true })
         .then(function (dbArticle) {
             var hbsObject = {
+                saved: true,
                 articles: dbArticle
             };
             response.render("index", hbsObject);
