@@ -8,11 +8,6 @@ const newsSite1 = 'https://www.theatlantic.com/latest/'
 
 // Scrape GET Route
 router.get("/scrape1", function (req, res) {
-
-
-    var allOfArticles = []
-
-
     // Grab HTML body
     axios.get(newsSite1).then(function (response) {
         // Load into Cheerio
@@ -33,19 +28,13 @@ router.get("/scrape1", function (req, res) {
             article.link = "https://www.theatlantic.com" + $(this).find("a").attr("href").trim()
             article.thumbnail = $(this).find("a figure img").attr("data-src")
 
-            // console.log(article)
-
             // Create Article
-            // db.Article.create(article)
-            //     .then(function (dbArticle) { console.log(dbArticle) })
-            //     .catch(function (err) { console.log(err) })
-
-            allOfArticles.push(article)
+            db.Article.create(article)
+                .then(function (dbArticle) { console.log(dbArticle) })
+                .catch(function (err) { console.log(err) })
         })
-
     })
-    // res.send("Scrape Complete")
-    res.send(allOfArticles)
+    res.send("Scrape Complete")
 })
 
 module.exports = router

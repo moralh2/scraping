@@ -46,4 +46,34 @@ router.get("/articles/saved", function (request, response) {
         });
 });
 
+router.get("/articles/:id", function (request, response) {
+    Article.findOne({ _id: request.params.id })
+        .then(function (dbArticle) {
+            var hbsObject = {
+                articles: dbArticle
+            };
+            // response.render("index", hbsObject);
+            response.json(hbsObject);
+
+        })
+        .catch(function (err) {
+            response.json(err);
+        });
+});
+
+router.put("/articles/:id", function (request, response) {
+    Article.findOneAndUpdate({ _id: request.params.id }, {$set:{saved:true}}, { new: true })
+        .then(function (dbArticle) {
+            var hbsObject = {
+                articles: dbArticle
+            };
+            // response.render("index", hbsObject);
+            response.json(hbsObject);
+
+        })
+        .catch(function (err) {
+            response.json(err);
+        });
+});
+
 module.exports = router
