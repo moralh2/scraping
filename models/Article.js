@@ -9,7 +9,11 @@ var ArticleSchema = new Schema({
     summary: { type: String, required: true },
     link: { type: String, required: true },
     thumbnail: { type: String, required: true },
-    saved: { type: Boolean, required: true, default: false}
+    saved: { type: Boolean, required: true, default: false},
+    note: { 
+        type: Schema.Types.ObjectId, 
+        ref: "Note" 
+    }
 },
 {
     versionKey: false
