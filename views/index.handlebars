@@ -3,13 +3,13 @@
     {{#if saved}}
         <h1>SAVED</h1>
         {{#each articles}}
-            {{> articles/article-block}}
+            {{> articles/article-saved-block}}
         {{/each}}
     {{else}}
         <h1>ELSE</h1>
 
         {{#each articles}}
-            {{> articles/article-block}}
+            {{> articles/article-new-block}}
         {{/each}}
 
     {{/if}}
