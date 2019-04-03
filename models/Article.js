@@ -10,10 +10,10 @@ var ArticleSchema = new Schema({
     link: { type: String, required: true },
     thumbnail: { type: String, required: true },
     saved: { type: Boolean, required: true, default: false},
-    note: { 
+    notes: [{ 
         type: Schema.Types.ObjectId, 
         ref: "Note" 
-    }
+    }]
 },
 {
     versionKey: false

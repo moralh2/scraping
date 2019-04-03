@@ -12,8 +12,28 @@ $(function() {
       console.log(data)
     });
 });
-    $(".save-article").on("click", function(event) {
+    $(".article-save").on("click", function(event) {
 
+      var id = $(this).data("id");
+  
+      var change = {
+        saved: true
+      };
+  
+      // Send the PUT request.
+      $.ajax({
+        // data: change,
+        method: "PUT",
+        url: "/articles/" + id
+      }).then(
+        function() { location.reload() }
+      );
+    });
+
+
+
+
+    $(".article-note").on("click", function(event) {
       var id = $(this).data("id");
   
       var change = {
