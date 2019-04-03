@@ -86,46 +86,45 @@ router.put("/articles/:id", function (request, response) {
 
 router.post("/articles/:id", function (request, response) {
     Note.create(request.body)
-      .then(function(dbNote) {
-        // If a Note was created successfully, find Article and associate with the new note
-        return Article.findOneAndUpdate({ _id: request.params.id }, { $push: { notes: dbNote._id } }, { new: true })
-      })
-      .then(function(dbArticle) {
-        // If update succeeds, send back
-        response.json(dbArticle);
-      })
-      .catch(function(err) {
-        response.json(err);
-      });
-  });
-
-  router.get("/articles/:id/clear-notes", function (request, response) {
-
-    Article.findById(request.params.id)
-    .then(function (dbArticle) {
-        response.json(dbArticle);
-
-        // console.log(dbArticle.notes[0])
-        
-        Note.deleteOne({_id:   mongoose.Types.ObjectId( dbArticle.notes[0] ) })
+        .then(function(dbNote) {
+            // If a Note was created successfully, find Article and associate with the new note
+            return Article.findOneAndUpdate({ _id: request.params.id }, { $push: { notes: dbNote._id } }, { new: true })
+        })
         .then(function(dbArticle) {
-        // If update succeeds, send back
-        response.json(dbArticle);
-      })
-
-        // var hbsObject = {
-        //     articles: dbArticle
-        // };
-        // response.render("index", hbsObject);
-        // response.json(hbsObject);
-
-    })
-    .catch(function (err) {
-        response.json(err);
-    });
-
-
+            // If update succeeds, send back
+            response.json(dbArticle)
+        })
+        .catch(function(err) {
+            response.json(err)
+        });
   });
+
+router.get("/articles/:id/clear-notes", function (request, response) {
+    Article.findOne({ _id: request.params.id })
+        .then(function (dbArticle) {
+            // response.json(dbArticle.notes)
+
+            // let arrIds = dbArticle.notes.map(note => mongoose.Types.ObjectId(note.id))
+            // let arrIds = dbArticle.notes.map(note => note._id)
+            let arrIds = dbArticle.notes
+            // response.json(arrIds)
+
+            Note.deleteMany({ _id: { $in: arrIds } })
+                .catch(function(err) {
+                    response.json(err)
+                })
+            return dbArticle
+        })
+        .then(function(dbArticle) {
+            return Article.findOneAndUpdate({ _id: dbArticle.id }, { $set: { notes: [] } }, { new: true })
+        })
+        .then(function(dbArticle) {
+            response.json(dbArticle)
+        })
+        .catch(function(err) {
+            response.json(err)
+        })
+})
 
 
 
