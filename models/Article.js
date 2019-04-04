@@ -12,12 +12,16 @@ var ArticleSchema = new Schema({
     saved: { type: Boolean, required: true, default: false},
     notes: [{ 
         type: Schema.Types.ObjectId, 
-        ref: "Note" 
+        ref: "Note"
     }]
 },
 {
     versionKey: false
 })
+
+ArticleSchema.post('save', function(doc) {
+    console.log('%s has been saved', doc._id);
+  });
 
 // Create Article model
 var Article = mongoose.model("Article", ArticleSchema)

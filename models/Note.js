@@ -8,6 +8,11 @@ var NoteSchema = new Schema({
     versionKey: false
 })
 
+NoteSchema.pre('save', function(next) {
+    console.log('3');
+    next();
+  });
+
 var Note = mongoose.model("Note", NoteSchema)
 
 module.exports = Note

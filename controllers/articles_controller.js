@@ -9,8 +9,10 @@ var Article = require('../models/Article')
 var Note = require('../models/Note')
 var mongoose = require("mongoose")
 
+var testing = false
 
-router.get("/articles", function (request, response) {
+
+router.get("/", function (request, response) {
     Article.find({})
         .then(function (dbArticle) {
             var hbsObject = {
@@ -46,8 +48,13 @@ router.get("/articles/saved", function (request, response) {
                 saved: true,
                 articles: dbArticle
             };
-            // response.render("index", hbsObject);
-            response.json(hbsObject);
+
+            if (testing) {
+                response.json(hbsObject);
+            }
+            else {
+                response.render("index", hbsObject);
+            }
         })
         .catch(function (err) {
             response.json(err);
@@ -100,32 +107,36 @@ router.post("/articles/:id", function (request, response) {
   });
 
 router.get("/articles/:id/clear-notes", function (request, response) {
-    Article.findOne({ _id: request.params.id })
-        .then(function (dbArticle) {
-            // response.json(dbArticle.notes)
 
-            // let arrIds = dbArticle.notes.map(note => mongoose.Types.ObjectId(note.id))
-            // let arrIds = dbArticle.notes.map(note => note._id)
-            let arrIds = dbArticle.notes
-            // response.json(arrIds)
 
-            Note.deleteMany({ _id: { $in: arrIds } })
-                .catch(function(err) {
-                    response.json(err)
-                })
-            return dbArticle
-        })
-        .then(function(dbArticle) {
-            return Article.findOneAndUpdate({ _id: dbArticle.id }, { $set: { notes: [] } }, { new: true })
-        })
-        .then(function(dbArticle) {
-            response.json(dbArticle)
-        })
-        .catch(function(err) {
-            response.json(err)
-        })
+
+
+
+    Article.findOne({ _id: request.params.id }).then((article) => {
+        article.notes.pull();
+        // article.notes = [];
+        article.save();
+
+    });
+
+    // Article.findOne({ _id: request.params.id })
+        // .then(function (dbArticle) {
+        //     let arrNoteIds = dbArticle.notes
+        //     Note.deleteMany({ _id: { $in: arrNoteIds } })
+        //         .catch(function(err) {
+        //             response.json(err)
+        //         })
+        //     return dbArticle
+        // })
+        // .then(function(dbArticle) {
+        //     return Article.findOneAndUpdate({ _id: dbArticle.id }, { $set: { notes: [] } }, { new: true })
+        // })
+        // .then(function(dbArticle) {
+        //     response.json(dbArticle)
+        // })
+        // .catch(function(err) {
+        //     response.json(err)
+        // })
 })
-
-
 
 module.exports = router

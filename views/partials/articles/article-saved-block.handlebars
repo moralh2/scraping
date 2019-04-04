@@ -4,8 +4,46 @@
             <a href={{link}} class="card-text">{{title}}</a>
             <img src={{thumbnail}} class="rounded float-left mr-3" alt="...">
             <p class="card-text">{{summary}}</p>
-            <a class="btn btn-primary text-white article-notes" data-id="{{id}}">Notes</a>
+            {{!-- <a class="btn btn-primary text-white article-notes" data-id="{{id}}">Notes</a> --}}
             <a class="btn btn-danger text-white article-delete" data-id="{{id}}">Delete</a>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notes-{{id}}">
+                Notes
+            </button>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="notes-{{id}}" tabindex="-1" role="dialog" aria-labelledby="modalForNotes" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">Notes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group list-group-flush">
+
+                    {{#each notes}}
+                        {{> notes/note-saved-block}}
+                    {{/each}}
+
+                    <li class="list-group-item">
+                       <form>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="newNote" aria-describedby="newNote" placeholder="Enter a note">
+                            </div>
+                            <button type="button" class="btn btn-primary">Submit</button>
+                        </form>
+                    </li>
+                </ul>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger">Delete All</button>
+            </div>
+            </div>
         </div>
     </div>
 </div>
