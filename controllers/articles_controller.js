@@ -1,17 +1,13 @@
 // Import Express
 var express = require("express")
-
 // Create Router
 var router = express.Router()
 
 // Import the models
 var Article = require('../models/Article')
 var Note = require('../models/Note')
-var mongoose = require("mongoose")
-
 
 var testing = false
-
 
 router.get("/", function (request, response) {
     Article.find({})
@@ -128,7 +124,7 @@ router.delete("/articles/:id", function (request, response) {
 });
 
 router.delete("/articles/", function (request, response) {
-    mongoose.connection.db.dropCollection('articles')
+    Article.collection.drop()
     .then(function (result) {
         response.send(result)
     })

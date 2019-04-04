@@ -1,18 +1,25 @@
 <div id="articles" class="container"></div>
 
-    {{#if saved}}
-        <h1>SAVED</h1>
-        {{#each articles}}
-            {{> articles/article-saved-block}}
-        {{/each}}
-    {{else}}
-        <h1>ELSE</h1>
+    {{#if articles}}
 
-        {{#each articles}}
-            {{> articles/article-new-block}}
-        {{/each}}
+
+        {{#if saved}}
+            <div class="container bg-primary pt-3">
+                {{#each articles}}
+                    {{> articles/article-saved-block}}
+                {{/each}}
+            </div>
+        {{else}}
+            <div class="container bg-info pt-3">
+                {{#each articles}}
+                    {{> articles/article-new-block}}
+                {{/each}}
+            </div>
+
+        {{/if}}
 
     {{/if}}
+
 
 
 

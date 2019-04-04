@@ -38,7 +38,7 @@ router.get("/scrape1", function (request, response) {
         })
     })
     // Redirect after scrape to load the new articles
-    res.redirect('/articles/new')
+    res.redirect('/')
 })
 
 module.exports = router
