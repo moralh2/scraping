@@ -10,7 +10,7 @@ var Article = require('../models/Article')  // Import Article Models
 const newsSite1 = 'https://www.theatlantic.com/latest/'
 
 // Scrape GET Route
-router.get("/scrape1", function (req, res) {
+router.get("/scrape1", function (request, response) {
     // Grab HTML body
     axios.get(newsSite1).then(function (response) {
         // Load into Cheerio

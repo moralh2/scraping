@@ -79,4 +79,28 @@ $(function() {
     );
   });
 
+  $(".article-delete").on("click", function(event) {
+    var id = $(this).data("id")
+    console.log(id)
+    // Send the DEL request
+    $.ajax({
+      // data: change,
+      method: "DELETE",
+      url: "/articles/" + id
+    }).then(
+      function() {  location.reload()  }
+    );
+  });
+
+  $(".all-articles-delete").on("click", function(event) {
+    // Send the DEL request
+    $.ajax({
+      // data: change,
+      method: "DELETE",
+      url: "/articles/"
+    }).then(
+      function() {  location.reload()  }
+    );
+  });
+
 });
