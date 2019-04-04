@@ -65,5 +65,20 @@ $(function() {
     );
   });
 
+  $(".note-delete").on("click", function(event) {
+    // event.preventDefault()
+    var id = $(this).data("id")
+
+    console.log(id)
+
+    // Send the DEL request
+    $.ajax({
+      // data: change,
+      method: "DELETE",
+      url: "/notes/" + id
+    }).then(
+      function() {  location.reload()  }
+    );
+  });
 
 });

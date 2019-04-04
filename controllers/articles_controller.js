@@ -105,15 +105,15 @@ router.post("/articles/:id", function (request, response) {
         });
   });
 
-  router.delete("/notes/:id", function (request, response) {
-    Note.deleteOne({_id: request.params.id})
-        .then(function(data) {
-            response.json(data) 
-        })
-        .catch(function(err) {
-            response.json(err)
-        });
-  });
+router.delete("/notes/:id", function (request, response) {
+Note.deleteOne({_id: request.params.id})
+    .then(function(data) {
+        response.json(data) 
+    })
+    .catch(function(err) {
+        response.json(err)
+    });
+});
 
 router.get("/articles/:id/clear-notes", function (request, response) {
 
