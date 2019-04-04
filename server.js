@@ -20,20 +20,10 @@ app.set("view engine", "handlebars")
 var routes = require("./controllers/")
 
 app.use(routes)
-mongoose.connect("mongodb://localhost/newsScraper", { useNewUrlParser: true })
 
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsScraper"
 
-// GET for ALL Articles
-// app.get("/articles", function (req, res) {
-//     db.Article.find({})
-//         .then(function (dbArticle) {
-//             res.json(dbArticle);
-//         })
-//         .catch(function (err) {
-//             res.json(err);
-//         });
-// });
-
+mongoose.connect(MONGODB_URI)
 
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!")

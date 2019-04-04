@@ -1,13 +1,13 @@
 <div id="articles" class="container"></div>
     {{#if articles}}
         {{#if saved}}
-            <div class="container bg-primary pt-3">
+            <div class="container bg-primary pt-3 pb-3">
                 {{#each articles}}
                     {{> articles/article-saved-block}}
                 {{/each}}
             </div>
         {{else}}
-            <div class="container bg-info pt-3">
+            <div class="container bg-info pt-3 pb-3">
                 {{#each articles}}
                     {{> articles/article-new-block}}
                 {{/each}}
