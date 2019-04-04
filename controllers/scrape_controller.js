@@ -3,7 +3,10 @@ var express = require("express")            // Import Express
 var router = express.Router()               // Create Router
 var axios = require("axios")                // HTTP client
 var cheerio = require("cheerio")            // API to traverse DOM
-var db = require("../models")               // Import Models
+// var db = require("../models")               // Import Models
+var Article = require('../models/Article')  // Import Article Models
+
+
 const newsSite1 = 'https://www.theatlantic.com/latest/'
 
 // Scrape GET Route
@@ -29,12 +32,13 @@ router.get("/scrape1", function (req, res) {
             article.thumbnail = $(this).find("a figure img").attr("data-src")
 
             // Create Article
-            db.Article.create(article)
+            Article.create(article)
                 .then(function (dbArticle) { console.log(dbArticle) })
                 .catch(function (err) { console.log(err) })
         })
     })
-    res.send("Scrape Complete")
+    // Redirect after scrape to load the new articles
+    res.redirect('/articles/new')
 })
 
 module.exports = router

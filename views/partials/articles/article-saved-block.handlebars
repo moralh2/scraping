@@ -32,9 +32,9 @@
                     <li class="list-group-item">
                        <form>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="newNote" aria-describedby="newNote" placeholder="Enter a note">
+                                <input id="new-note-post-{{id}}" type="text" class="form-control" aria-describedby="newNote" placeholder="Enter a note">
                             </div>
-                            <button type="button" class="btn btn-primary">Submit</button>
+                            <a type="button" class="btn btn-primary new-note-submit" data-id="{{id}}">Submit</a>
                         </form>
                     </li>
                 </ul>

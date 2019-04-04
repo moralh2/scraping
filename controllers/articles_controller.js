@@ -7,7 +7,6 @@ var router = express.Router()
 // Import the models
 var Article = require('../models/Article')
 var Note = require('../models/Note')
-var mongoose = require("mongoose")
 
 var testing = false
 
